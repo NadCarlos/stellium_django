@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Título con estilos -->
+    <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; font-weight: bold; color: #6c757d;">
+        Blogs Según Categoría
+    </h2>
+    
+    <!-- Contenedor de categorías con diseño de tarjetas -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for category in categories %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+                        {{ category.name }}
+                    </h5>
+                    <a href="{% url 'posts' category.id %}" class="btn btn-primary mt-2">Ver Blogs</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
