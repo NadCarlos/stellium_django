@@ -1,5 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    SHOP
+<div class="container mt-4">
+    <!-- Título con estilos -->
+    <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; font-weight: bold; color: #6c757d;">
+        Our offers
+    </h2>
+    
+    <!-- Contenedor de categorías con diseño de tarjetas -->
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+                        Online 
+                    </h5>
+                    <a href="{% url 'products' %}" class="btn btn-primary mt-2">More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+                        Art
+                    </h5>
+                    <a href="#" class="btn btn-primary mt-2">More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

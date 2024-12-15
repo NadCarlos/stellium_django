@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Third Party Apps
+    "paypal.standard.ipn",
     # Custom Apps
     "blog",
     "shared_app",
@@ -147,3 +149,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Paypal Settings
+
+PAYPAL_TEST = True
+
+PAYPAL_RECEIVER_EMAIL = "sb-lre2m34361971@business.example.com"

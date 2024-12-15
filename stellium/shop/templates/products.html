@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Contenedor de categorías con diseño de tarjetas -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for product in products %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+                        {{ product.name }}
+                    </h5>
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary mt-2">Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
