@@ -12,7 +12,7 @@ env = environ.Env(
     DJANGO_DEBUG=(bool, False),
     DJANGO_SECRET_KEY=(str, "django-23-!hk12311x5zi4ktc-)_*6n&wgnBBB#j2&ezh_7"),
     DJANGO_ALLOWED_HOSTS=(list, []),
-    MYSQL_DATABASE=(str, "gym_db"),
+    MYSQL_DATABASE=(str, "stelium_db"),
     MYSQL_USER=(str, "root"),
     MYSQL_PASSWORD=(str, "root"),
     MYSQL_HOST=(str, "localhost"),
@@ -22,6 +22,8 @@ env = environ.Env(
     SESSION_COOKIE_SECURE=(bool, False),
     CSRF_COOKIE_SECURE=(bool, False),
     SECURE_SSL_REDIRECT=(bool, False),
+    EMAIL_HOST_USER = (str),
+    EMAIL_HOST_PASSWORD = (str),
 )
 environ.Env.read_env(ENV_FILE)
 
@@ -156,3 +158,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 PAYPAL_TEST = True
 
 PAYPAL_RECEIVER_EMAIL = "sb-lre2m34361971@business.example.com"
+
+
+# Email Settings
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

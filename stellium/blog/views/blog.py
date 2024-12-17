@@ -1,7 +1,5 @@
 from django.views import View
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 from blog.repositories.category import CategoryRepository
 from blog.repositories.post import PostRepository
