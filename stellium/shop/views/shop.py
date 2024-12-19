@@ -2,7 +2,6 @@ from django.conf import settings
 from django.views import View
 from django.shortcuts import render
 from django.urls import reverse
-from django.core.mail import send_mail
 
 import uuid
 
@@ -69,13 +68,6 @@ class ProductDetail(View):
 class PaymentSuccess(View):
 
     def get(self, request):
-        send_mail(
-            subject="Compraste",
-            message="gracias por comrar jijijaja",
-            from_email="settings.EMAIL_HOST_USER",
-            recipient_list=["andreitripalovski@gmail.com"],
-            fail_silently=False,
-        )
         return render(
             request,
             'payment_success.html',
