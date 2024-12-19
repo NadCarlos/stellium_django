@@ -15,7 +15,7 @@ def paypal_payment_received(sender, **kwargs):
     ipn = sender
     print(ipn.payment_status)
 
-"""    if ipn.payment_status == ST_PP_COMPLETED:
+    if ipn.payment_status == ST_PP_COMPLETED:
         print("completo")
         # Obtener detalles del pago
         product_name = ipn.item_name
@@ -44,4 +44,4 @@ def paypal_payment_received(sender, **kwargs):
             fail_silently=False,
         )
     else:
-        print("Nope")"""
+        print("Nope")

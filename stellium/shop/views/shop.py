@@ -46,7 +46,7 @@ class ProductDetail(View):
 			item_name= product.name,
 			no_shipping= '2',
 			invoice= str(uuid.uuid4()),
-			currency_code= 'EUR', # EUR for Euros
+			currency_code= 'USD', # EUR for Euros
 			notify_url= 'http://{}{}'.format(host, reverse("paypal-ipn")),
 			return_url= 'http://{}{}'.format(host, reverse("payment_success")),
 			cancel_return= 'http://{}{}'.format(host, reverse("payment_failed")),
