@@ -3,6 +3,7 @@ from django.contrib import admin
 from blog.models import (
     Post,
     Category,
+    PostImages
 )
 
 
@@ -17,4 +18,11 @@ class PostAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         'name',
+    )
+
+
+@admin.register(PostImages)
+class PostImagesAdmin(admin.ModelAdmin):
+    list_display = (
+        'id_post',
     )

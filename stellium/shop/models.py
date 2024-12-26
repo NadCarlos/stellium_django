@@ -24,6 +24,12 @@ class Product(models.Model):
         blank=True,
         verbose_name="Description",
         )
+    
+    image = models.ImageField(
+        upload_to='product_covers/',
+        null=True,
+        blank=True,
+        )
 
     active = models.BooleanField(
         default=1,
@@ -33,7 +39,7 @@ class Product(models.Model):
 
     def __str__(self):
         return  self.name
-    
+
 
 class Order(models.Model):
 

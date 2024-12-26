@@ -38,5 +38,31 @@ class Post(models.Model):
         related_name='category',
     )
 
+    cover = models.ImageField(
+        upload_to='blog_covers/',
+        null=True,
+        blank=True,
+        )
+
     def __str__(self):
         return  self.title
+    
+
+class PostImages(models.Model):
+
+    id_post = models.ForeignKey(
+        Post,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='post',
+    )
+
+    image = models.ImageField(
+        upload_to='blog_covers/',
+        null=True,
+        blank=True,
+        )
+    
+    def __str__(self):
+        return self.id_post.title

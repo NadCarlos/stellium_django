@@ -3,5 +3,6 @@
 {% block content %}
 {% for post in posts %}
     <a href="{% url 'post' post.id %}"> {{ post.title }} </a>
+    <img src="{{ post.cover.url }}" alt="{{ product.name }}" class="img-fluid rounded" style="max-width: 100%; height: auto;">
 {% endfor %}
 {% endblock %}
