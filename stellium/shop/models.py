@@ -87,3 +87,25 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.invoice_id} - {self.product_name} ({self.status})"
+    
+
+class CancelledOrders(models.Model):
+
+    id_product = models.ForeignKey(
+        Product,
+        blank=False,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='product',
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+        )
+    
+    updated_at = models.DateTimeField(
+        auto_now=True
+        )
+    
+    def __str__(self):
+        return f"Order {self.id_product.name} cancelled"

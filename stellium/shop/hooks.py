@@ -44,4 +44,4 @@ def paypal_payment_received(sender, **kwargs):
             fail_silently=False,
         )
     else:
-        print("Nope")
+        print("Error")

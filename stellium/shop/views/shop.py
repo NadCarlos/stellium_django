@@ -3,14 +3,18 @@ from django.views import View
 from django.shortcuts import render
 from django.urls import reverse
 
+from urllib.parse import urlencode
+
 import uuid
 
 from paypal.standard.forms import PayPalPaymentsForm
 
 from shop.repositories.product import ProductRepository
+from shop.repositories.cancelled_order import CancelledOrdersRepository
 
 
 productRepo = ProductRepository()
+cancelledOrderRepo = CancelledOrdersRepository()
 
 
 class ShopIndex(View):
@@ -40,6 +44,7 @@ class ProductDetail(View):
     def get(self, request, id):
         product = productRepo.filter_by_id(id=id)
         host = request.get_host()
+        params = urlencode({"product_id": product.id})
         paypal_dict = dict(
             business = settings.PAYPAL_RECEIVER_EMAIL,
 			amount = product.price,
@@ -49,7 +54,7 @@ class ProductDetail(View):
 			currency_code= 'USD', # EUR for Euros
 			notify_url= 'http://{}{}'.format(host, reverse("paypal-ipn")),
 			return_url= 'http://{}{}'.format(host, reverse("payment_success")),
-			cancel_return= 'http://{}{}'.format(host, reverse("payment_failed")),
+            cancel_return = "http://{}{}?{}".format(host, reverse("payment_failed"), params)
         )
 
         # Create acutal paypal button
@@ -77,6 +82,13 @@ class PaymentSuccess(View):
 class PaymentFailed(View):
 
     def get(self, request):
+        product_id = request.GET.get('product_id')
+        product = productRepo.filter_by_id(id=product_id)
+
+        cancelledOrder = cancelledOrderRepo.create(
+            id_product=product,
+        )
+
         return render(
             request,
             'payment_failed.html',
