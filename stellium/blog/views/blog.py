@@ -3,10 +3,12 @@ from django.shortcuts import render
 
 from blog.repositories.category import CategoryRepository
 from blog.repositories.post import PostRepository
+from blog.repositories.post_images import PostImagesRepository
 
 
 cateRepo = CategoryRepository()
 postRepo = PostRepository()
+postImgRepo = PostImagesRepository()
 
 
 class BlogIndex(View):
@@ -48,10 +50,12 @@ class Post(View):
 
     def get(self, request, id):
         post = postRepo.filter_by_id(id=id)
+        post_images = postImgRepo.filter_by_post(id_post=post.id)
         return render(
             request,
             'blog/post.html',
             dict(
                 post = post,
+                post_images = post_images,
             )
         )
