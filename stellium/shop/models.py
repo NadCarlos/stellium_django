@@ -3,6 +3,12 @@ from django.db import models
 
 class Product(models.Model):
 
+    PRODUCT_TYPES = [
+        ('fixed', 'fixed'),
+        ('custom', 'custom'),
+        ('consult', 'consult'),
+    ]
+
     name = models.CharField(
         max_length=150,
         null=False,
@@ -30,6 +36,11 @@ class Product(models.Model):
         null=True,
         blank=True,
         )
+    
+    product_type = models.CharField(
+        max_length=10, 
+        choices=PRODUCT_TYPES, 
+        default='fixed')
 
     active = models.BooleanField(
         default=1,

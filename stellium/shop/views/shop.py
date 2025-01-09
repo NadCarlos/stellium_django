@@ -54,7 +54,8 @@ class ProductDetail(View):
 			currency_code= 'USD', # EUR for Euros
 			notify_url= 'http://{}{}'.format(host, reverse("paypal-ipn")),
 			return_url= 'http://{}{}'.format(host, reverse("payment_success")),
-            cancel_return = "http://{}{}?{}".format(host, reverse("payment_failed"), params)
+            cancel_return = "http://{}{}?{}".format(host, reverse("payment_failed"), params),
+            custom = int(product.id),
         )
 
         # Create acutal paypal button
