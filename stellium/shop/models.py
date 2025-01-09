@@ -41,6 +41,19 @@ class Product(models.Model):
         return  self.name
 
 
+class ProductFile(models.Model):
+
+    id_product = models.ForeignKey(
+        Product,
+        blank=False,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='product_file',
+    )
+
+    upload = models.FileField(upload_to ='products_files/')
+
+
 class Order(models.Model):
 
     STATUS_CHOICES = [

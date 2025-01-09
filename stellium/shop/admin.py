@@ -4,6 +4,7 @@ from shop.models import (
     Product,
     Order,
     CancelledOrders,
+    ProductFile,
 )
 
 
@@ -11,6 +12,13 @@ from shop.models import (
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'name',
+    )
+
+
+@admin.register(ProductFile)
+class ProductFileAdmin(admin.ModelAdmin):
+    list_display = (
+        'id_product',
     )
 
 
