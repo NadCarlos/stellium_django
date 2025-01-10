@@ -45,6 +45,14 @@ class ProductDetail(View):
         product = productRepo.filter_by_id(id=id)
         host = request.get_host()
         params = urlencode({"product_id": product.id})
+        
+        if product.product_type == "fixed":
+            success_url = "payment_success"
+        elif product.product_type == "custom":
+            success_url = "payment_success_custom"
+        elif product.product_type == "consult":
+            success_url = "payment_success_consult"
+
         paypal_dict = dict(
             business = settings.PAYPAL_RECEIVER_EMAIL,
 			amount = product.price,
@@ -53,7 +61,7 @@ class ProductDetail(View):
 			invoice= str(uuid.uuid4()),
 			currency_code= 'USD', # EUR for Euros
 			notify_url= 'http://{}{}'.format(host, reverse("paypal-ipn")),
-			return_url= 'http://{}{}'.format(host, reverse("payment_success")),
+			return_url= 'http://{}{}'.format(host, reverse(success_url)),
             cancel_return = "http://{}{}?{}".format(host, reverse("payment_failed"), params),
             custom = int(product.id),
         )
@@ -77,6 +85,24 @@ class PaymentSuccess(View):
         return render(
             request,
             'payment_success.html',
+        )
+    
+
+class PaymentSuccessCustom(View):
+
+    def get(self, request):
+        return render(
+            request,
+            'payment_success_custom.html',
+        )
+    
+
+class PaymentSuccessConsult(View):
+
+    def get(self, request):
+        return render(
+            request,
+            'payment_success_consult.html',
         )
 
 
