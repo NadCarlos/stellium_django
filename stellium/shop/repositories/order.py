@@ -11,6 +11,9 @@ class OrderRepository:
     def filter_by_id(self) -> Optional[Order]:
         return Order.objects.filter(id=id).first()
     
+    def filter_by_first(self) -> Optional[Order]:
+        return Order.objects.filter().first()
+    
     def filter_by_activo(self) -> List[Order]:
         return Order.objects.filter(
             activo=True
@@ -18,8 +21,6 @@ class OrderRepository:
     
     def filter_by_invoice_id(self, invoice_id) -> List[Order]:
         return Order.objects.filter(invoice_id=invoice_id).first()
-    
-    
     
     def get_by_id(self, id: int) -> Optional[Order]:
         try:
