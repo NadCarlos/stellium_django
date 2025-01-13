@@ -8,6 +8,7 @@ from shop.views.shop import (
     PaymentSuccessCustom,
     PaymentSuccessConsult,
     PaymentFailed,
+    ConsultIndex,
 )
 
 
@@ -20,4 +21,5 @@ urlpatterns = [
     path(route='payment_success_custom/',view=PaymentSuccessCustom.as_view(), name='payment_success_custom'),
     path(route='payment_success_consult/',view=PaymentSuccessConsult.as_view(), name='payment_success_consult'),
     path(route='payment_failed/',view=PaymentFailed.as_view(), name='payment_failed'),
+    path(route='consult_index/',view=ConsultIndex.as_view(), name='consult_index'),
 ]

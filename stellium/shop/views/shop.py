@@ -150,3 +150,12 @@ class PaymentFailed(View):
             request,
             'payment_failed.html',
         )
+
+
+class ConsultIndex(View):
+
+    def get(self, request):
+        return render(
+            request,
+            'consult_index.html'
+        )
