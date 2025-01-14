@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+        Calendario de Consultas - {{ month }}/{{ year }}
+    </h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miércoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for week in same_month_weeks %}
+                    <tr>
+                        {% for day in week %}
+                            <td class="p-3 {% if day == today %} bg-primary text-white fw-bold {% endif %}">
+                                {{ day }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if next_month_weeks != None %}
+    <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miércoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for week in next_month_weeks %}
+                    <tr>
+                        {% for day in week %}
+                            <td class="p-3 {% if day == today %} bg-primary text-white fw-bold {% endif %}">
+                                {{ day }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
