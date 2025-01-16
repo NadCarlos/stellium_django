@@ -167,24 +167,12 @@ class ConsultCalendar(View):
         today = datetime.today()
         year = today.year
         month = today.month
-        calendar_weeks = monthcalendar(year, month)
+        next_month = month + 1
+        calendar_weeks_same_month = monthcalendar(year, month)
+        calendar_weeks_next_month = monthcalendar(year, next_month)
 
-        current_week = None
-        for i, week in enumerate(calendar_weeks):
-            if today.day in week:
-                current_week = i
-                break
-
-        if current_week is None or current_week == len(calendar_weeks) - 1:
-            next_week = today + timedelta(days=7)
-            year, month = next_week.year, next_week.month
-            calendar_weeks = monthcalendar(year, month)
-            current_week = 0
-
-        selected_weeks = []
         same_month_weeks = []
-
-        for week in calendar_weeks[current_week + 1 : current_week + 5]:
+        for week in calendar_weeks_same_month:
             filtered_week = []
             for day in week:
                 if day != 0:
@@ -195,41 +183,27 @@ class ConsultCalendar(View):
                         filtered_week.append(None)
                 else:
                     filtered_week.append(None)
-            selected_weeks.append(filtered_week[:5])
             same_month_weeks.append(filtered_week[:5])
-
-        selected_weeks_len = len(selected_weeks)
         next_month_weeks = []
-        if selected_weeks_len < 3:
-            if month == 12:
-                month = 1
-            else:
-                month = month + 1
-            calendar_weeks = monthcalendar(year, month)
-            
-            
-            for week in calendar_weeks:
-                if len(selected_weeks) < 3:
-                    filtered_week = []
-                    none_count = 0
-                    for day in week:
-                        if day != 0:
-                            day_date = datetime(year, month, day)
-                            if day_date.weekday() < 5:
-                                filtered_week.append(day)
-                            else:
-                                filtered_week.append(None)
-                        else:
-                            filtered_week.append(None)
+        for week in calendar_weeks_next_month:
+            filtered_week = []
+            for day in week:
+                if day != 0:
+                    day_date = datetime(year, next_month, day)
+                    if day_date.weekday() < 5:
+                        filtered_week.append(day)
+                    else:
+                        filtered_week.append(None)
+                else:
+                    filtered_week.append(None)
 
-                    for x in filtered_week:
-                        if x == None:
-                            none_count = none_count + 1
-                    if none_count != 7:
-                        selected_weeks.append(filtered_week[:5])
-                        next_month_weeks.append(filtered_week[:5])
-        else:
-            next_month_weeks = None
+            none_count = 0
+            for x in filtered_week:
+                if x == None:
+                    none_count = none_count + 1
+            
+            if none_count != 7:
+                next_month_weeks.append(filtered_week[:5])
 
         return render(
             request, 
@@ -237,8 +211,9 @@ class ConsultCalendar(View):
             dict(
                 same_month_weeks = same_month_weeks,
                 next_month_weeks = next_month_weeks,
-                year = year,
                 month = month,
+                next_month = next_month,
+                year = year,
             )
         )
 

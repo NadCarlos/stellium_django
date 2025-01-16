@@ -3,7 +3,11 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
-        Calendario de Consultas - {{ month }}/{{ year }}
+        Consult Calendar
+    </h2>
+
+    <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+        {{ month }}/{{ year }}
     </h2>
 
     <div class="table-responsive">
@@ -22,7 +26,7 @@
                     <tr>
                         {% for day in week %}
                             <td class="p-3 {% if day == today %} bg-primary text-white fw-bold {% endif %}">
-                                {{ day }}
+                                <a href="#">{{ day }}</a>
                             </td>
                         {% endfor %}
                     </tr>
@@ -30,7 +34,11 @@
             </tbody>
         </table>
     </div>
-    {% if next_month_weeks != None %}
+
+    <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+        {{ next_month }}/{{ year }}
+    </h2>
+
     <div class="table-responsive">
         <table class="table table-bordered text-center align-middle">
             <thead class="table-dark">
@@ -47,7 +55,7 @@
                     <tr>
                         {% for day in week %}
                             <td class="p-3 {% if day == today %} bg-primary text-white fw-bold {% endif %}">
-                                {{ day }}
+                                <a href="#">{{ day }}</a>
                             </td>
                         {% endfor %}
                     </tr>
@@ -55,6 +63,5 @@
             </tbody>
         </table>
     </div>
-    {% endif %}
 </div>
 {% endblock %}
