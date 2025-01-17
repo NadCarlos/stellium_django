@@ -133,3 +133,27 @@ class CancelledOrders(models.Model):
     
     def __str__(self):
         return f"Order {self.id_product.name} cancelled"
+    
+
+class Consult(models.Model):
+
+    date = models.DateField(
+        null=False,
+        blank=False,
+        verbose_name="date",
+    )
+
+    time = models.TimeField(
+        null=False,
+        blank=False,
+        verbose_name="time",
+    )
+
+
+class SelectionTimes(models.Model):
+
+    time = models.TimeField(
+        null=False,
+        blank=False,
+        verbose_name="selection_times",
+    )

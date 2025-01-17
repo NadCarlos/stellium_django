@@ -5,6 +5,8 @@ from shop.models import (
     Order,
     CancelledOrders,
     ProductFile,
+    Consult,
+    SelectionTimes,
 )
 
 
@@ -33,4 +35,18 @@ class OrderAdmin(admin.ModelAdmin):
 class CancelledOrderAdmin(admin.ModelAdmin):
     list_display = (
         'id_product',
+    )
+
+
+@admin.register(Consult)
+class ConsultAdmin(admin.ModelAdmin):
+    list_display = (
+        'date',
+    )
+
+
+@admin.register(SelectionTimes)
+class SelectionTimesAdmin(admin.ModelAdmin):
+    list_display = (
+        'time',
     )

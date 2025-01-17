@@ -15,11 +15,15 @@ from shop.forms import EmailForm
 from shop.repositories.product import ProductRepository
 from shop.repositories.order import OrderRepository
 from shop.repositories.cancelled_order import CancelledOrdersRepository
+from shop.repositories.selected_times import SelectionTimesRepository
+from shop.repositories.consult import ConsultRepository
 
 
 productRepo = ProductRepository()
 orderRepo = OrderRepository()
 cancelledOrderRepo = CancelledOrdersRepository()
+selectedTimesRepo = SelectionTimesRepository()
+consultRepo = ConsultRepository()
 
 
 class ShopIndex(View):
@@ -164,6 +168,8 @@ class ConsultIndex(View):
 class ConsultCalendar(View):
 
     def get(self, request):
+        times = selectedTimesRepo.get_all()
+        consults = consultRepo.get_all()
         today = datetime.today()
         year = today.year
         month = today.month
@@ -184,6 +190,7 @@ class ConsultCalendar(View):
                 else:
                     filtered_week.append(None)
             same_month_weeks.append(filtered_week[:5])
+
         next_month_weeks = []
         for week in calendar_weeks_next_month:
             filtered_week = []
@@ -214,6 +221,9 @@ class ConsultCalendar(View):
                 month = month,
                 next_month = next_month,
                 year = year,
+                times = times,
+                consults = consults,
             )
         )
+
 

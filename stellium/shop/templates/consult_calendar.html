@@ -26,7 +26,11 @@
                     <tr>
                         {% for day in week %}
                             <td class="p-3 {% if day == today %} bg-primary text-white fw-bold {% endif %}">
-                                <a href="#">{{ day }}</a>
+                                {% if day %}
+                                    <button class="btn btn-outline-primary" onclick="selectDate('{{ day }}', '{{ month }}', '{{ year }}')" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                                        {{ day }}
+                                    </button>
+                                {% endif %}
                             </td>
                         {% endfor %}
                     </tr>
@@ -55,7 +59,11 @@
                     <tr>
                         {% for day in week %}
                             <td class="p-3 {% if day == today %} bg-primary text-white fw-bold {% endif %}">
-                                <a href="#">{{ day }}</a>
+                                {% if day %}
+                                    <button class="btn btn-outline-primary" onclick="selectDate('{{ day }}', '{{ next_month }}', '{{ year }}')" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                                        {{ day }}
+                                    </button>
+                                {% endif %}
                             </td>
                         {% endfor %}
                     </tr>
@@ -64,4 +72,43 @@
         </table>
     </div>
 </div>
+
+<!-- MODAL DE FORMULARIO -->
+<div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="appointmentModalLabel">Seleccionar Hora</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="selectedDate" name="date">
+                    
+                    <div class="mb-3">
+                        <label for="timeSelect" class="form-label">Hora de la Consulta</label>
+                        <select id="timeSelect" name="time" class="form-control">
+                            {% for time in times %}
+                                <option value="{{ time.time }}">{{ time.time }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Continue</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function selectDate(day, month, year) {
+        let formattedDate = `${year}-${month}-${day}`;
+        document.getElementById('selectedDate').value = formattedDate;
+        document.getElementById('appointmentModalLabel').innerText = `Seleccionar Hora - ${formattedDate}`;
+        console.log(formattedDate)
+    }
+</script>
+
 {% endblock %}
