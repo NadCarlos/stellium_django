@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.core.mail import send_mail
 
+import json
 from urllib.parse import urlencode
 import uuid
 from paypal.standard.forms import PayPalPaymentsForm
@@ -168,8 +169,8 @@ class ConsultIndex(View):
 class ConsultCalendar(View):
 
     def get(self, request):
-        times = selectedTimesRepo.get_all()
-        consults = consultRepo.get_all()
+        times = selectedTimesRepo.filter_by_time()
+        consults = consultRepo.filter_by_date()
         today = datetime.today()
         year = today.year
         month = today.month
@@ -177,6 +178,15 @@ class ConsultCalendar(View):
         calendar_weeks_same_month = monthcalendar(year, month)
         calendar_weeks_next_month = monthcalendar(year, next_month)
 
+        consults_dict = {}
+        for fecha, hora in consults:
+            fecha_str = fecha.strftime("%Y-%m-%d")
+            hora_str = hora.strftime("%H:%M")  # Convertir a formato HH:MM
+
+            if fecha_str not in consults_dict:
+                consults_dict[fecha_str] = []
+            consults_dict[fecha_str].append(hora_str)
+            
         same_month_weeks = []
         for week in calendar_weeks_same_month:
             filtered_week = []
@@ -222,7 +232,7 @@ class ConsultCalendar(View):
                 next_month = next_month,
                 year = year,
                 times = times,
-                consults = consults,
+                consults_dict = json.dumps(consults_dict),
             )
         )
 
