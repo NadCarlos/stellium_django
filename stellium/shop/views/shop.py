@@ -172,6 +172,7 @@ class ConsultCalendar(View):
         times = selectedTimesRepo.filter_by_time()
         consults = consultRepo.filter_by_date()
         today = datetime.today()
+        now_day = today.day
         year = today.year
         month = today.month
         next_month = month + 1
@@ -232,6 +233,7 @@ class ConsultCalendar(View):
                 next_month = next_month,
                 year = year,
                 times = times,
+                now_day = now_day,
                 consults_dict = json.dumps(consults_dict),
             )
         )

@@ -14,11 +14,11 @@
         <table class="table table-bordered text-center align-middle">
             <thead class="table-dark">
                 <tr>
-                    <th>Lunes</th>
-                    <th>Martes</th>
-                    <th>Miércoles</th>
-                    <th>Jueves</th>
-                    <th>Viernes</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,9 +27,15 @@
                         {% for day in week %}
                             <td class="p-3 {% if day == today %} bg-primary text-white fw-bold {% endif %}">
                                 {% if day %}
-                                    <button class="btn btn-outline-primary" onclick="selectDate('{{ day }}', '{{ month }}', '{{ year }}')" data-bs-toggle="modal" data-bs-target="#appointmentModal">
-                                        {{ day }}
-                                    </button>
+                                    {% if day > now_day %}
+                                        <button class="btn btn-outline-primary" onclick="selectDate('{{ day }}', '{{ month }}', '{{ year }}')" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                                            {{ day }}
+                                        </button>
+                                    {% else %}
+                                        <button class="btn btn-outline-disabled" disabled>
+                                            {{ day }}
+                                        </button>
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         {% endfor %}
@@ -47,11 +53,11 @@
         <table class="table table-bordered text-center align-middle">
             <thead class="table-dark">
                 <tr>
-                    <th>Lunes</th>
-                    <th>Martes</th>
-                    <th>Miércoles</th>
-                    <th>Jueves</th>
-                    <th>Viernes</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
                 </tr>
             </thead>
             <tbody>
@@ -78,7 +84,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="appointmentModalLabel">Seleccionar Hora</h5>
+                <h5 class="modal-title" id="appointmentModalLabel">Select Hour</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -87,9 +93,9 @@
                     <input type="hidden" id="selectedDate" name="date">
                     
                     <div class="mb-3">
-                        <label for="timeSelect" class="form-label">Hora de la Consulta</label>
+                        <label for="timeSelect" class="form-label">Consult Hour</label>
                         <select id="timeSelect" name="time" class="form-control">
-                            <option value="" selected disabled>Selecciona el horario</option>
+                            <option value="" selected disabled>Select Hour</option>
                             {% for time in times %}
                                 <option value="{{ time }}">{{ time }}</option>
                             {% endfor %}
@@ -104,6 +110,12 @@
 </div>
 
 <script>
+    const modal = document.getElementById('appointmentModal');
+    modal.addEventListener('hidden.bs.modal', function () {
+        const timeSelect = document.getElementById('timeSelect');
+        timeSelect.value = "";
+    });
+
     function convertTo24HourFormat(timeStr) {
         let timeMap = {
             "12 a.m.": "00:00", "1 a.m.": "01:00", "2 a.m.": "02:00", "3 a.m.": "03:00",
