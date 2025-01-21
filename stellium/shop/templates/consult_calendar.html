@@ -90,14 +90,14 @@
             <div class="modal-body">
                 <form method="POST">
                     {% csrf_token %}
-                    <input type="hidden" id="selectedDate" name="date">
+                    <input type="hidden" id="selectedDate" name="date" readonly="readonly">
                     
                     <div class="mb-3">
                         <label for="timeSelect" class="form-label">Consult Hour</label>
                         <select id="timeSelect" name="time" class="form-control">
                             <option value="" selected disabled>Select Hour</option>
                             {% for time in times %}
-                                <option value="{{ time }}">{{ time }}</option>
+                                <option id="selectedTime" name="selectedTime" value="{{ time }}" readonly="readonly">{{ time }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -116,18 +116,6 @@
         timeSelect.value = "";
     });
 
-    function convertTo24HourFormat(timeStr) {
-        let timeMap = {
-            "12 a.m.": "00:00", "1 a.m.": "01:00", "2 a.m.": "02:00", "3 a.m.": "03:00",
-            "4 a.m.": "04:00", "5 a.m.": "05:00", "6 a.m.": "06:00", "7 a.m.": "07:00",
-            "8 a.m.": "08:00", "9 a.m.": "09:00", "10 a.m.": "10:00", "11 a.m.": "11:00",
-            "12 p.m.": "12:00", "1 p.m.": "13:00", "2 p.m.": "14:00", "3 p.m.": "15:00",
-            "4 p.m.": "16:00", "5 p.m.": "17:00", "6 p.m.": "18:00", "7 p.m.": "19:00",
-            "8 p.m.": "20:00", "9 p.m.": "21:00", "10 p.m.": "22:00", "11 p.m.": "23:00"
-        };
-        return timeMap[timeStr] || timeStr;
-    }
-
     let reservedHours = JSON.parse('{{ consults_dict|escapejs }}');
     function selectDate(day, month, year) {
         let formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
@@ -145,9 +133,8 @@
             let bookedTimes = reservedHours[formattedDate];
             for (let option of allOptions) {
                 let optionValue = option.value.trim();
-                let convertedValue = convertTo24HourFormat(optionValue);
                 
-                if (bookedTimes.includes(convertedValue)) {
+                if (bookedTimes.includes(optionValue)) {
                     option.style.display = "none";
                 }
             }

@@ -12,3 +12,10 @@ class EmailForm(forms.Form):
     message = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Write all data here...', 'rows': 5})
     )
+
+
+class ConsultForm(forms.Form):
+
+    date = forms.DateField()
+
+    time = forms.TimeField()
