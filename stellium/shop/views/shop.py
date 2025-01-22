@@ -40,7 +40,7 @@ class ShopIndex(View):
 class ProductsList(View):
 
     def get(self, request):
-        products = productRepo.get_all()
+        products = productRepo.get_all_by_diferent_type(product_type='consult')
         return render(
             request,
             'products.html',
@@ -133,15 +133,6 @@ class PaymentSuccessCustom(View):
             return redirect('payment_success')
 
 
-class PaymentSuccessConsult(View):
-
-    def get(self, request):
-        return render(
-            request,
-            'payment_success_consult.html',
-        )
-
-
 class PaymentFailed(View):
 
     def get(self, request):
@@ -161,9 +152,13 @@ class PaymentFailed(View):
 class ConsultIndex(View):
 
     def get(self, request):
+        consult = productRepo.filter_by_type(product_type='consult')
         return render(
             request,
-            'consult_index.html'
+            'consult_index.html',
+            dict(
+                consult = consult,
+            )
         )
 
 
@@ -241,28 +236,42 @@ class ConsultCalendar(View):
     
     def post(self, request):
         times = selectedTimesRepo.filter_by_time()
-        consults = consultRepo.filter_by_date()
+        #consults = consultRepo.filter_by_date()
         date = request.POST['date']
         date = datetime.strptime(date, "%Y-%m-%d").date()
         time = request.POST['time']
         time = time.replace(" ", "").replace(".", "").upper()
         time = datetime.strptime(time, "%I%p").time()
         
-        if date.month == 12:  # Si es diciembre, avanzar al próximo año
-            next_month = 1
-            year = date.year + 1
-        else:
-            next_month = date.month + 1
-            year = date.year
+        try:
+            if date.month == 12:  # Si es diciembre, avanzar al próximo año
+                next_month = 1
+                year = date.year + 1
+            else:
+                next_month = date.month + 1
+                year = date.year
 
-        last_day_next_month = calendar.monthrange(year, next_month)[1]
-        valid_date = datetime(year, next_month, last_day_next_month).date()
-        if date < valid_date:
-            print("ok date")
+            last_day_next_month = calendar.monthrange(year, next_month)[1]
+            valid_date = datetime(year, next_month, last_day_next_month).date()
+            if date < valid_date:
+                print("ok date")
 
-        if time in times:
-            print(date, time, "ok")
+            if time in times:
+                print(date, time, "ok")
 
-        return redirect('index')
+            return redirect('payment_success_consult', date, time)
+        except:
+            return redirect('error')
 
 
+class PaymentSuccessConsult(View):
+
+    def get(self, request, date, time):
+        return render(
+            request,
+            'payment_success_consult.html',
+            dict(
+                date = date,
+                time = time,
+            )
+        )
