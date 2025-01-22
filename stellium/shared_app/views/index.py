@@ -11,3 +11,13 @@ class Index(View):
             request,
             'index.html'
         )
+    
+
+class Error(View):
+
+    def get(self, request):
+        return render(
+            request,
+            'error.html'
+        )
+
