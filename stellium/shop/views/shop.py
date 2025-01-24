@@ -259,19 +259,48 @@ class ConsultCalendar(View):
             if time in times:
                 print(date, time, "ok")
 
-            return redirect('payment_success_consult', date, time)
+            return redirect('consult_pay', date, time)
         except:
             return redirect('error')
 
 
-class PaymentSuccessConsult(View):
+class ConsultPay(View):
 
     def get(self, request, date, time):
+        consult = productRepo.filter_by_type(product_type='consult')
+        host = request.get_host()
+        params = urlencode({"consult_id": consult.id})
+
+        paypal_dict = dict(
+            business = settings.PAYPAL_RECEIVER_EMAIL,
+			amount = consult.price,
+			item_name= consult.name,
+			no_shipping= '2',
+			invoice= str(uuid.uuid4()),
+			currency_code= 'USD', # EUR for Euros
+			notify_url= 'http://{}{}'.format(host, reverse("paypal-ipn")),
+			return_url= 'http://{}{}'.format(host, reverse("payment_success_consult")),
+            cancel_return = "http://{}{}?{}".format(host, reverse("payment_failed"), params),
+            custom = int(consult.id),
+        )
+
+        paypal_form = PayPalPaymentsForm(initial=paypal_dict)
+
         return render(
             request,
-            'payment_success_consult.html',
+            'consult_pay.html',
             dict(
+                consult=consult,
+                paypal_form=paypal_form,
                 date = date,
                 time = time,
             )
+        )
+
+class PaymentSuccessConsult(View):
+
+    def get(self, request):
+        return render(
+            request,
+            'payment_success_consult.html',
         )
