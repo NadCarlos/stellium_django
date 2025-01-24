@@ -1,5 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    We received your payment
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+        Payment approved! Provide your information below!
+    </h2>
+
+    {% if sent %}
+        <div class="alert alert-success text-center">
+            Thanks
+        </div>
+    {% else %}
+        <div class="card shadow-sm border-0 p-4">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    {{ form.name }}
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Your Email</label>
+                    {{ form.email }}
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Information</label>
+                    {{ form.message }}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-100">Enviar</button>
+            </form>
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

@@ -25,5 +25,5 @@ urlpatterns = [
     path(route='payment_failed/',view=PaymentFailed.as_view(), name='payment_failed'),
     path(route='consult_index/',view=ConsultIndex.as_view(), name='consult_index'),
     path(route='consult_calendar/',view=ConsultCalendar.as_view(), name='consult_calendar'),
-    path(route='<str:date>/<str:time>/consult_pay/',view=ConsultPay.as_view(), name='consult_pay'),
+    path(route='<int:id>/consult_pay/',view=ConsultPay.as_view(), name='consult_pay'),
 ]

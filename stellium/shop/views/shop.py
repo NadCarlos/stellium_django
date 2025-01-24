@@ -133,22 +133,6 @@ class PaymentSuccessCustom(View):
             return redirect('payment_success')
 
 
-class PaymentFailed(View):
-
-    def get(self, request):
-        product_id = request.GET.get('product_id')
-        product = productRepo.filter_by_id(id=product_id)
-
-        cancelledOrder = cancelledOrderRepo.create(
-            id_product=product,
-        )
-
-        return render(
-            request,
-            'payment_failed.html',
-        )
-
-
 class ConsultIndex(View):
 
     def get(self, request):
@@ -254,34 +238,44 @@ class ConsultCalendar(View):
             last_day_next_month = calendar.monthrange(year, next_month)[1]
             valid_date = datetime(year, next_month, last_day_next_month).date()
             if date < valid_date:
-                print("ok date")
+                pass
+            else:
+                return redirect('error')
 
             if time in times:
-                print(date, time, "ok")
+                pass
+            else:
+                return redirect('error')
+            
+            consult = consultRepo.create(
+                date=date,
+                time=time,
+            )
 
-            return redirect('consult_pay', date, time)
+            return redirect('consult_pay', consult.id)
         except:
             return redirect('error')
 
 
 class ConsultPay(View):
 
-    def get(self, request, date, time):
-        consult = productRepo.filter_by_type(product_type='consult')
+    def get(self, request, id):
+        product = productRepo.filter_by_type(product_type='consult')
+        consult = consultRepo.filter_by_id(id=id)
         host = request.get_host()
-        params = urlencode({"consult_id": consult.id})
+        params = urlencode({"consult_id": product.id})
 
         paypal_dict = dict(
             business = settings.PAYPAL_RECEIVER_EMAIL,
-			amount = consult.price,
-			item_name= consult.name,
+			amount = product.price,
+			item_name= product.name,
 			no_shipping= '2',
 			invoice= str(uuid.uuid4()),
 			currency_code= 'USD', # EUR for Euros
 			notify_url= 'http://{}{}'.format(host, reverse("paypal-ipn")),
 			return_url= 'http://{}{}'.format(host, reverse("payment_success_consult")),
             cancel_return = "http://{}{}?{}".format(host, reverse("payment_failed"), params),
-            custom = int(consult.id),
+            custom = int(product.id),
         )
 
         paypal_form = PayPalPaymentsForm(initial=paypal_dict)
@@ -290,17 +284,58 @@ class ConsultPay(View):
             request,
             'consult_pay.html',
             dict(
-                consult=consult,
+                product=product,
                 paypal_form=paypal_form,
-                date = date,
-                time = time,
+                consult = consult,
             )
         )
+
 
 class PaymentSuccessConsult(View):
 
     def get(self, request):
+        order = orderRepo.filter_by_first()
+        form = EmailForm(initial={'email':order.buyer_email})
+
         return render(
             request,
             'payment_success_consult.html',
+            dict(
+                form = form
+            )
+        )
+    
+    def post(self,request):
+        form = EmailForm(request.POST)
+        sent = False
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+
+            # Enviar correo
+            send_mail(
+                subject=f"Mensaje de {name}",
+                message=f"Nombre: {name}\nEmail: {email}\n\nMensaje:\n{message}",
+                from_email=email,
+                recipient_list=[settings.EMAIL_HOST_USER],
+            )
+            sent = True
+
+            return redirect('payment_success')
+    
+
+class PaymentFailed(View):
+
+    def get(self, request):
+        product_id = request.GET.get('product_id')
+        product = productRepo.filter_by_id(id=product_id)
+
+        cancelledOrder = cancelledOrderRepo.create(
+            id_product=product,
+        )
+
+        return render(
+            request,
+            'payment_failed.html',
         )
