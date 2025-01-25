@@ -149,6 +149,12 @@ class Consult(models.Model):
         verbose_name="time",
     )
 
+    active = models.BooleanField(
+        default=0,
+        null=False,
+        blank=False,
+    )
+
 
 class SelectionTimes(models.Model):
 

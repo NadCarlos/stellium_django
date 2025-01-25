@@ -12,7 +12,7 @@ class ConsultRepository:
         return Consult.objects.filter(id=id).first()
     
     def filter_by_date(self) -> Optional[Consult]:
-        return Consult.objects.values_list("date", "time", flat=False)
+        return Consult.objects.values_list("date", "time", flat=False).filter(active=1)
     
     def create(
         self,
@@ -23,3 +23,13 @@ class ConsultRepository:
             date=date,
             time=time,
         )
+    
+    def update_active(
+        self,
+        consult: Consult,
+        active: bool,
+    ) -> Consult:
+        
+        consult.active = active
+
+        consult.save()

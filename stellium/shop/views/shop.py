@@ -222,12 +222,11 @@ class ConsultCalendar(View):
         times = selectedTimesRepo.filter_by_time()
         #consults = consultRepo.filter_by_date()
         date = request.POST['date']
-        date = datetime.strptime(date, "%Y-%m-%d").date()
         time = request.POST['time']
-        time = time.replace(" ", "").replace(".", "").upper()
-        time = datetime.strptime(time, "%I%p").time()
-        
         try:
+            date = datetime.strptime(date, "%Y-%m-%d").date()
+            time = time.replace(" ", "").replace(".", "").upper()
+            time = datetime.strptime(time, "%I%p").time()
             if date.month == 12:  # Si es diciembre, avanzar al próximo año
                 next_month = 1
                 year = date.year + 1
@@ -263,18 +262,19 @@ class ConsultPay(View):
         product = productRepo.filter_by_type(product_type='consult')
         consult = consultRepo.filter_by_id(id=id)
         host = request.get_host()
-        params = urlencode({"consult_id": product.id})
+        params_cancel = urlencode({"product_id": product.id})
+        params_return = urlencode({"consult_id": id})
 
         paypal_dict = dict(
             business = settings.PAYPAL_RECEIVER_EMAIL,
 			amount = product.price,
 			item_name= product.name,
-			no_shipping= '2',
+			no_shipping= '1',
 			invoice= str(uuid.uuid4()),
 			currency_code= 'USD', # EUR for Euros
 			notify_url= 'http://{}{}'.format(host, reverse("paypal-ipn")),
-			return_url= 'http://{}{}'.format(host, reverse("payment_success_consult")),
-            cancel_return = "http://{}{}?{}".format(host, reverse("payment_failed"), params),
+			return_url= 'http://{}{}?{}'.format(host, reverse("payment_success_consult"), params_return),
+            cancel_return = "http://{}{}?{}".format(host, reverse("payment_failed"), params_cancel),
             custom = int(product.id),
         )
 
@@ -296,6 +296,12 @@ class PaymentSuccessConsult(View):
     def get(self, request):
         order = orderRepo.filter_by_first()
         form = EmailForm(initial={'email':order.buyer_email})
+        consult_id = request.GET.get('consult_id')
+        consult = consultRepo.filter_by_id(id=consult_id)
+        consultRepo.update_active(
+            consult=consult,
+            active=1,
+        )
 
         return render(
             request,
