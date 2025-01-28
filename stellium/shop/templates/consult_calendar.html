@@ -6,76 +6,80 @@
         Consult Calendar
     </h2>
 
-    <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
-        {{ month }}/{{ year }}
-    </h2>
-
-    <div class="table-responsive">
-        <table class="table table-bordered text-center align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for week in same_month_weeks %}
-                    <tr>
-                        {% for day in week %}
-                            <td class="p-3 {% if day == today %} bg-primary text-white fw-bold {% endif %}">
-                                {% if day %}
-                                    {% if day > now_day %}
-                                        <button class="btn btn-outline-primary" onclick="selectDate('{{ day }}', '{{ month }}', '{{ year }}')" data-bs-toggle="modal" data-bs-target="#appointmentModal">
-                                            {{ day }}
-                                        </button>
-                                    {% else %}
-                                        <button class="btn btn-outline-disabled" disabled>
-                                            {{ day }}
-                                        </button>
-                                    {% endif %}
-                                {% endif %}
-                            </td>
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="text-center mb-3" style="font-family: 'Footlight MT Pro', serif; color: #4D1A6B;">
+                {{ month }}/{{ year }}
+            </h3>
+            <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for week in same_month_weeks %}
+                            <tr>
+                                {% for day in week %}
+                                    <td class="p-3">
+                                        {% if day %}
+                                            {% if day > now_day %}
+                                                <button class="btn btn-outline-primary btn-sm" onclick="selectDate('{{ day }}', '{{ month }}', '{{ year }}')" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                                                    {{ day }}
+                                                </button>
+                                            {% else %}
+                                                <button class="btn btn-outline-secondary btn-sm" disabled>
+                                                    {{ day }}
+                                                </button>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                            </tr>
                         {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
-        {{ next_month }}/{{ year }}
-    </h2>
-
-    <div class="table-responsive">
-        <table class="table table-bordered text-center align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for week in next_month_weeks %}
-                    <tr>
-                        {% for day in week %}
-                            <td class="p-3 {% if day == today %} bg-primary text-white fw-bold {% endif %}">
-                                {% if day %}
-                                    <button class="btn btn-outline-primary" onclick="selectDate('{{ day }}', '{{ next_month }}', '{{ year }}')" data-bs-toggle="modal" data-bs-target="#appointmentModal">
-                                        {{ day }}
-                                    </button>
-                                {% endif %}
-                            </td>
+        <div class="col-md-6">
+            <h3 class="text-center mb-3" style="font-family: 'Footlight MT Pro', serif; color: #4D1A6B;">
+                {{ next_month }}/{{ year }}
+            </h3>
+            <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for week in next_month_weeks %}
+                            <tr>
+                                {% for day in week %}
+                                    <td class="p-3 {% if day == today %} bg-primary text-white fw-bold {% endif %}">
+                                        {% if day %}
+                                            <button class="btn btn-outline-primary btn-sm" onclick="selectDate('{{ day }}', '{{ next_month }}', '{{ year }}')" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                                                {{ day }}
+                                            </button>
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                            </tr>
                         {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -91,13 +95,13 @@
                 <form method="POST">
                     {% csrf_token %}
                     <input type="hidden" id="selectedDate" name="date" readonly="readonly">
-                    
+
                     <div class="mb-3">
                         <label for="timeSelect" class="form-label">Consult Hour</label>
                         <select id="timeSelect" name="time" class="form-control">
                             <option value="" selected disabled>Select Hour</option>
                             {% for time in times %}
-                                <option id="selectedTime" name="selectedTime" value="{{ time }}" readonly="readonly">{{ time }}</option>
+                                <option value="{{ time }}">{{ time }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -143,17 +147,13 @@
         
         if (reservedHours[formattedDate]) {
             let bookedTimes = reservedHours[formattedDate];
-            console.log("⏳ Horarios reservados:", bookedTimes);
 
             for (let option of allOptions) {
                 let optionValue = option.value.trim();
                 let convertedValue = convertTo24HourFormat(optionValue);  // Convertir a "HH:MM"
                 
-                console.log("Comparando:", convertedValue, "vs", bookedTimes);
-                
                 if (bookedTimes.includes(convertedValue)) {
                     option.style.display = "none"; // Ocultar opción ocupada
-                    console.log("⛔ Ocultando opción:", optionValue);
                 }
             }
         }
