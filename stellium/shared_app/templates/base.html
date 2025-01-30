@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{% static 'public/stellium_logo.webp' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'stellium_logo.ico' %}">
     <title>Stellium Universe</title>
     <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.8"></script>
     <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.12"></script>
@@ -124,7 +124,8 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}">Stellium Universe</a>
+            <a class="navbar-brand" href="{% url 'index' %}"><img class="imagen" style="width: 30px; height: 30px;"
+                src="{% static 'stellium_logo.webp' %}" alt="logo ">Stellium Universe</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -142,7 +143,6 @@
             </div>
         </div>
     </nav>
-
     <!-- Content -->
     <div class="container-fluid">
         {% block content %}
