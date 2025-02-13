@@ -117,32 +117,42 @@
         a:hover {
             color: #4d1a6b;
         }
+
+        .coso:hover {
+            color: #4d1a6b;
+        }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}"><img class="imagen" style="width: 30px; height: 30px;"
-                src="{% static 'stellium_logo.webp' %}" alt="logo ">Stellium Universe</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'categories' %}">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'shop' %}">Our Products</a>
-                    </li>
-                </ul>
-            </div>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+        <img class="imagen me-2" style="width: 70px; height: 70px;" src="{% static 'stellium_logo.webp' %}" alt="logo">
+        <div class="d-flex w-100 justify-content-center align-items-center">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+                <h1 style="padding-left: 15%;" class="coso">Stellium Universe</h1>
+            </a>
         </div>
-    </nav>
+
+        <button class="navbar-toggler position-absolute end-0 me-3" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'categories' %}"><h4 class="coso">Our Blog</h4></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'shop' %}"><h4 class="coso">Our Products</h4></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
     <!-- Content -->
     <div class="container-fluid">
         {% block content %}
