@@ -15,7 +15,7 @@
                     {{ product.name }}
                 </h1>
                 <h4 class="text-success mb-4" style="font-family: 'Footlight MT Pro', serif;">
-                    Precio: ${{ product.price }}
+                    Price: ${{ product.price }}
                 </h4>
                 <p class="fs-5" style="line-height: 1.6; color: #555555;">
                     {{ consult.date }}
@@ -23,14 +23,34 @@
                 <p class="fs-5" style="line-height: 1.6; color: #555555;">
                     {{ consult.time }}
                 </p>
-                <!-- Formulario de PayPal -->
-                <div class="mt-4">
-                    <button class="btn btn-warning btn-lg px-5 py-3" style="font-size: 1.2rem; font-weight: bold;">
-                        {{ paypal_form.render|safe }}
-                    </button>
+                <!-- PayPal -->
+                <div id="paypal-container" style="display: none;">
+                    {{ paypal_form.render|safe }}
                 </div>
+                <button id="custom-paypal-btn" class="btn btn-warning btn-lg px-4 py-2 shadow-sm fw-bold" style="font-size: 1.2rem; border-radius: 10px;">
+                    <i class="bi bi-paypal"></i> Pay With PayPal
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Esconde el botón original de PayPal
+    let paypalForm = document.querySelector("#paypal-container form");
+    if (paypalForm) {
+        let paypalButton = paypalForm.querySelector("input[type='image']");
+        if (paypalButton) {
+            paypalButton.style.display = "none";
+        }
+    }
+    // Botón personalizado
+    document.getElementById("custom-paypal-btn").addEventListener("click", function () {
+        if (paypalForm) {
+            paypalForm.submit();
+        }
+    });
+});
+</script>
 {% endblock %}
