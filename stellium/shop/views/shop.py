@@ -154,8 +154,11 @@ class ConsultCalendar(View):
         today = datetime.today()
         now_day = today.day
         year = today.year
-        month = today.month
+        month = int(today.month)
+        month_str = calendar.month_name[month]
         next_month = month + 1
+        next_month_str = int(next_month)
+        next_month_str = calendar.month_name[next_month_str]
         calendar_weeks_same_month = monthcalendar(year, month)
         calendar_weeks_next_month = monthcalendar(year, next_month)
 
@@ -211,6 +214,8 @@ class ConsultCalendar(View):
                 next_month_weeks = next_month_weeks,
                 month = month,
                 next_month = next_month,
+                month_str = month_str,
+                next_month_str = next_month_str,
                 year = year,
                 times = times,
                 now_day = now_day,
