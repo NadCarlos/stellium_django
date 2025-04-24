@@ -1,33 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <!-- Título con estilos -->
-    <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; font-weight: bold; color: #6c757d;">
+<style>
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-5" style="font-family: 'Footlight MT Pro', serif; font-weight: bold; color: #6c757d;">
         Our offers
     </h2>
-    
-    <!-- Contenedor de categorías con diseño de tarjetas -->
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <h5 class="card-title" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
-                        Digital Products 
-                    </h5>
-                    <a href="{% url 'products' %}" class="btn btn-primary mt-2">More</a>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
+        <!-- Card: Digital Products -->
+        <div class="col" style="max-width: 300px;">
+            <a href="{% url 'products' %}" class="text-decoration-none">
+                <div class="card shadow-sm border-0 text-center p-3" style="aspect-ratio: 9 / 14; transition: transform 0.2s;">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-laptop fs-1 text-primary mb-3"></i>
+                        <h5 class="card-title mb-2" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+                            Digital Products
+                        </h5>
+                        <p class="text-muted mb-0">
+                            Downloadable content including courses, ebooks, and digital tools.
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
-        <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <h5 class="card-title" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
-                        Online Consults
-                    </h5>
-                    <a href="{% url 'consult_index' %}" class="btn btn-primary mt-2">More</a>
+
+        <!-- Card: Online Consults -->
+        <div class="col" style="max-width: 300px;">
+            <a href="{% url 'consult_index' %}" class="text-decoration-none">
+                <div class="card shadow-sm border-0 text-center p-3" style="aspect-ratio: 9 / 14; transition: transform 0.2s;">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-camera-video fs-1 text-success mb-3"></i>
+                        <h5 class="card-title mb-2" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+                            Online Consults
+                        </h5>
+                        <p class="text-muted mb-0">
+                            Book sessions with our specialists from the comfort of your home.
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </div>

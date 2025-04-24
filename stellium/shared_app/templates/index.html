@@ -1,14 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+</style>
 <div class="container text-center mt-5">
-    <h1 class="mb-4" style="font-family: 'Footlight MT Pro', serif; color: #6CD4E6;">Welcome to Stellium Universe</h1>
-    <p class="mb-4" style="font-size: 1.2rem; color: #4D1A6B;">
+    <h1 class="mb-4" style="font-family: 'Footlight MT Pro', serif; color: #6CD4E6;">
+        Welcome to Stellium Universe
+    </h1>
+    <p class="mb-5" style="font-size: 1.2rem; color: #4D1A6B;">
         Explore the stars, discover amazing products, and immerse yourself in our blog.
     </p>
-    <div class="d-flex justify-content-center gap-3">
-        <a href="{% url 'categories' %}" class="btn">Visit Blog</a>
-        <a href="{% url 'shop' %}" class="btn">Shop Now</a>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
+        <!-- Blog Card -->
+        <div class="col">
+            <a href="{% url 'categories' %}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-0" style="transition: transform 0.2s;">
+                    <img src="#" class="card-img-top" alt="Visit Blog" style="height: 180px; object-fit: cover;">
+                    <div class="card-body text-center">
+                        <i class="bi bi-journal-text" style="font-size: 2rem; color: #4D1A6B;"></i>
+                        <h5 class="card-title mt-2" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+                            Visit Blog
+                        </h5>
+                        <p class="text-muted small">Read articles, updates, and deep dives into the Stellium Universe.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Shop Card -->
+        <div class="col">
+            <a href="{% url 'shop' %}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-0" style="transition: transform 0.2s;">
+                    <img src="#" class="card-img-top" alt="Shop Now" style="height: 180px; object-fit: cover;">
+                    <div class="card-body text-center">
+                        <i class="bi bi-bag-check" style="font-size: 2rem; color: #4D1A6B;"></i>
+                        <h5 class="card-title mt-2" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+                            Shop Now
+                        </h5>
+                        <p class="text-muted small">Browse and buy digital goods crafted for cosmic minds.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
 {% endblock %}

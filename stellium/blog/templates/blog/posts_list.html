@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 <div class="container mt-5">
     <h1 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
         Últimos Posts
@@ -9,18 +16,20 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for post in posts %}
         <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                <!-- Imagen del post -->
-                <img src="{{ post.cover.url }}" alt="{{ post.title }}" class="card-img-top rounded-top" style="height: 280px; object-fit: cover;">
-                
-                <!-- Cuerpo de la tarjeta -->
-                <div class="card-body text-center">
-                    <h5 class="card-title" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
-                        {{ post.title }}
-                    </h5>
-                    <a href="{% url 'post' post.id %}" class="btn btn-primary mt-2">Leer más</a>
+            <a href="{% url 'post' post.id %}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-0" style="transition: transform 0.2s;">
+                    <!-- Imagen del post -->
+                    <img src="{{ post.cover.url }}" alt="{{ post.title }}" class="card-img-top rounded-top" style="height: 280px; object-fit: cover;">
+
+                    <!-- Cuerpo de la tarjeta -->
+                    <div class="card-body text-center">
+                        <h5 class="card-title" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+                            {{ post.title }}
+                        </h5>
+                        <p class="text-muted small">Haz clic para leer el artículo completo.</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         {% endfor %}
     </div>
