@@ -2,35 +2,69 @@
 
 {% block content %}
 <div class="container mt-5">
-  <!-- Contenedor del post -->
-  <div class="card shadow-sm border-0 p-4">
-    <!-- Título del post -->
-    <h1 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; font-weight: bold; color: #343a40;">
-      {{ post.title }}
-    </h1>
-    <!-- Contenido del post -->
-    <p class="fs-5" style="font-family: 'Footlight MT Pro', serif; line-height: 1.8; color: #555555;">
-      {{ post.content }}
-    </p>
-    <div id="carousel" class="carousel slide">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="{{ post.cover.url }}" class="d-block w-100" alt="...">
+  <div class="row">
+    <!-- Blogs aleatorios -->
+    <div class="col-lg-3 d-none d-lg-block">
+      <h5 class="text-center mb-3" style="color: #4D1A6B;">Más del blog</h5>
+      {% for blog in random_posts %}
+        <a href="{% url 'post' blog.id %}" class="text-decoration-none">
+          <div class="card mb-3 shadow-sm border-0">
+            <img src="{{ blog.cover.url }}" class="card-img-top" style="height: 100px; object-fit: cover;">
+            <div class="card-body p-2">
+              <p class="card-title mb-0" style="font-size: 0.9rem; color: #8332A6;">{{ blog.title }}</p>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    <!-- Post -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 p-4">
+        <h1 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; font-weight: bold; color: #343a40;">
+          {{ post.title }}
+        </h1>
+
+        <p class="fs-5" style="font-family: 'Footlight MT Pro', serif; line-height: 1.8; color: #555555;">
+          {{ post.content }}
+        </p>
+
+        <div id="carousel" class="carousel slide mt-4">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="{{ post.cover.url }}" class="d-block w-100 rounded" alt="...">
+            </div>
+            {% for image in post_images %}
+            <div class="carousel-item">
+              <img src="{{ image.image.url }}" class="d-block w-100 rounded" alt="...">
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
         </div>
-        {% for image in post_images %}
-        <div class="carousel-item">
-          <img src="{{ image.image.url }}" class="d-block w-100" alt="...">
-        </div>
-        {% endfor %}
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+    </div>
+
+    <!-- Productos -->
+    <div class="col-lg-3 d-none d-lg-block">
+      <h5 class="text-center mb-3" style="color: #4D1A6B;">Productos sugeridos</h5>
+      {% for product in random_products %}
+        <a href="{% url 'product_detail' product.id %}" class="text-decoration-none">
+          <div class="card mb-3 shadow-sm border-0">
+            <img src="{{ product.image.url }}" class="card-img-top" style="height: 100px; object-fit: cover;">
+            <div class="card-body p-2">
+              <p class="card-title mb-0" style="font-size: 0.9rem; color: #8332A6;">{{ product.name|truncatewords:6 }}</p>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
     </div>
   </div>
 </div>

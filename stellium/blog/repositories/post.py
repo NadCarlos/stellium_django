@@ -4,6 +4,8 @@ from blog.models import (
     Post,
 )
 
+import random
+
 
 class PostRepository:
 
@@ -26,3 +28,7 @@ class PostRepository:
     def reactivate(self, post: Post):
         post.activo=True
         post.save()
+
+    def get_random(self, cantidad) -> Optional[Post]:
+        posts = list(Post.objects.all())
+        return random.sample(posts, cantidad)

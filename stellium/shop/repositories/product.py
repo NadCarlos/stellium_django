@@ -2,6 +2,8 @@ from typing import List, Optional
 
 from shop.models import Product
 
+import random
+
 
 class ProductRepository:
 
@@ -25,3 +27,7 @@ class ProductRepository:
     def delete_by_activo(self, product: Product):
         product.activo=False
         product.save()
+
+    def get_random_products(self, cantidad, product_type) -> Optional[Product]:
+        products = list(Product.objects.all().exclude(product_type=product_type))
+        return random.sample(products, cantidad)
