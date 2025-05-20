@@ -8,7 +8,7 @@
       <h5 class="text-center mb-3" style="color: #4D1A6B;">Más del blog</h5>
       {% for blog in random_posts %}
         <a href="{% url 'post' blog.id %}" class="text-decoration-none">
-          <div class="card mb-3 shadow-sm border-0">
+          <div class="card mb-3 shadow-sm border-0 sidebar-card">
             <img src="{{ blog.cover.url }}" class="card-img-top" style="height: 100px; object-fit: cover;">
             <div class="card-body p-2">
               <p class="card-title mb-0" style="font-size: 0.9rem; color: #8332A6;">{{ blog.title }}</p>
@@ -57,7 +57,7 @@
       <h5 class="text-center mb-3" style="color: #4D1A6B;">Productos sugeridos</h5>
       {% for product in random_products %}
         <a href="{% url 'product_detail' product.id %}" class="text-decoration-none">
-          <div class="card mb-3 shadow-sm border-0">
+          <div class="card mb-3 shadow-sm border-0 sidebar-card">
             <img src="{{ product.image.url }}" class="card-img-top" style="height: 100px; object-fit: cover;">
             <div class="card-body p-2">
               <p class="card-title mb-0" style="font-size: 0.9rem; color: #8332A6;">{{ product.name|truncatewords:6 }}</p>
@@ -68,4 +68,14 @@
     </div>
   </div>
 </div>
+<style>
+  .sidebar-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .sidebar-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+</style>
 {% endblock %}

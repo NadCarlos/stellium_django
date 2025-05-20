@@ -26,6 +26,12 @@
                 <div id="paypal-container" style="display: none;">
                     {{ paypal_form.render|safe }}
                 </div>
+                {% if product.product_type != 'fixed' %}
+                    <div class="alert alert-info border-start border-4 border-primary mt-4" role="alert" style="background-color: #f0f8ff; font-size: 1rem; font-style: italic;">
+                        <i class="bi bi-info-circle-fill me-2 text-primary"></i>
+                        At the end of the purchase of this product you must fill out a form with important information so we can deliver a faithful product.
+                    </div>
+                {% endif %}
                 <button id="custom-paypal-btn" class="btn btn-warning btn-lg px-4 py-2 shadow-sm fw-bold" style="font-size: 1.2rem; border-radius: 10px;">
                     <i class="bi bi-paypal"></i> Pay with PayPal
                 </button>

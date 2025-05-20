@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-2">
     <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
         Consult Calendar
     </h2>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-center">
+          <div class="p-2 bg-light rounded shadow-sm" style="max-width: 380px;">
+            <h6 class="mb-2 fw-bold text-dark text-center">Check Your Timezone!</h6>
+            <span class="wtb-ew-v1" style="width: 369px; display:inline-block">
+              <script src="https://www.worldtimebuddy.com/clock_widget.js?h=3169070&bc=C26DC4&cn=Italy&wt=c2"></script>
+              <i><a href="https://www.worldtimebuddy.com/" class="text-dark">Time Converter</a></i>
+              <noscript><a href="https://www.worldtimebuddy.com/" class="text-dark">Time Converter</a></noscript>
+              <script>window[wtb_event_widgets.pop()].init()</script>
+            </span>
+          </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-6">
@@ -13,7 +27,7 @@
             </h3>
             <div class="table-responsive">
                 <table class="table table-bordered text-center align-middle">
-                    <thead class="table-dark">
+                    <thead class="table">
                         <tr>
                             <th>Monday</th>
                             <th>Tuesday</th>
@@ -53,7 +67,7 @@
             </h3>
             <div class="table-responsive">
                 <table class="table table-bordered text-center align-middle">
-                    <thead class="table-dark">
+                    <thead class="table">
                         <tr>
                             <th>Monday</th>
                             <th>Tuesday</th>
@@ -159,5 +173,104 @@
         }
     }
 </script>
+<style>
+    table.table {
+        table-layout: fixed; /* Hace que todas las celdas tengan el mismo ancho */
+        width: 100%;
+    }
+
+    table.table th,
+    table.table td {
+        width: 20%; /* 5 columnas, entonces 100%/5 = 20% */
+        background-color: #ffffff;
+        border: 1px solid #000000;
+        padding: 0.5rem;
+        vertical-align: middle;
+    }
+
+    /* Estilo de los botones */
+    table.table td button {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-family: 'Footlight MT Pro', serif;
+        font-weight: bold;
+        transition: all 0.2s ease-in-out;
+    }
+
+    /* Hover para días disponibles */
+    table.table td button:hover:not(:disabled) {
+        transform: scale(1.05);
+        background-color: #4D1A6B;
+        color: #fff;
+    }
+
+    /* Estilo para días deshabilitados (ya pasaron o están ocupados) */
+    table.table td button:disabled {
+        background-color: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    /* Día actual resaltado */
+    td.bg-primary {
+        background-color: #6f42c1 !important;
+        color: white;
+        font-weight: bold;
+    }
+
+    thead.table-dark th {
+        font-family: 'Footlight MT Pro', serif;
+        font-size: 1.1rem;
+    }
+    
+    .modal-title {
+        font-family: 'Footlight MT Pro', serif;
+        color: #4D1A6B;
+    }
+
+    .btn-primary, .btn-outline-primary {
+        background-color: #6f42c1;
+        border-color: #6f42c1;
+    }
+
+    .btn-primary:hover, .btn-outline-primary:hover {
+        background-color: #5a379f;
+        border-color: #5a379f;
+    }
+
+    .btn-outline-secondary:disabled {
+        background-color: #f8f9fa;
+        color: #6c757d;
+    }
+
+    .table-responsive {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 0.5rem;
+        background-color: #fdfdff;
+    }
+    #timezone-widget {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050; /* Encima de casi todo */
+        background-color: #6f42c1;
+        padding: 12px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    #timezone-widget a {
+        color: #ffffff;
+        text-decoration: underline;
+        font-weight: 500;
+    }
+
+    #timezone-widget h6 {
+        font-family: 'Footlight MT Pro', serif;
+        font-size: 1rem;
+    }
+</style>
 
 {% endblock %}

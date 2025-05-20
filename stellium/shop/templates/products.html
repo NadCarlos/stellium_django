@@ -1,19 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <!-- Contenedor de categorías con diseño de tarjetas -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+        Explora Nuestros Productos
+    </h2>
+
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for product in products %}
         <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <h5 class="card-title" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
-                        {{ product.name }}
-                    </h5>
-                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary mt-2">Details</a>
+            <a href="{% url 'product_detail' product.id %}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-0">
+                    <!-- Imagen del producto -->
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top rounded-top" alt="{{ product.name }}" style="height: 220px; object-fit: cover;">
+                    {% endif %}
+                    
+                    <!-- Contenido -->
+                    <div class="card-body text-center">
+                        <h5 class="card-title" style="font-family: 'Footlight MT Pro', serif; color: #343a40;">
+                            {{ product.name }}
+                        </h5>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         {% endfor %}
     </div>
